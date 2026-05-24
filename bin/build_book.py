@@ -171,6 +171,51 @@ def main() -> None:
     if missing:
         print(f"WARNING: {len(missing)} stub folders missing: {missing}")
 
+    # Build internals section — mirrored from SutroYaro/analysis/schmidhuber-orchestration
+    # by that repo's build_artifact.py. Source of truth: SutroYaro. Updated when the
+    # mirror writes here.
+    internals_src = ROOT / "BUILD_INTERNALS"
+    internals_chapters: list[tuple[str, str]] = []  # (page_path, link_label)
+    internals_waves: list[tuple[str, str]] = []     # (page_path, label)
+    if internals_src.exists():
+        internals_dst = SRC / "build-internals"
+        shutil.copytree(internals_src, internals_dst)
+        # Top-level pages, in two groups: before waves, after waves
+        pages_before_waves = [
+            ("README.md",                  "Overview"),
+            ("orchestration-map.md",       "Orchestration map"),
+            ("sessions.md",                "Sessions"),
+            ("cost-rollup.md",             "Cost rollup"),
+            ("worker-prompt-anatomy.md",   "Worker prompt anatomy"),
+            ("patterns.md",                "Patterns observed"),
+        ]
+        pages_after_waves = [
+            ("next-phase.md",              "Next phase"),
+        ]
+        for filename, label in pages_before_waves:
+            if (internals_dst / filename).exists():
+                internals_chapters.append((f"build-internals/{filename}", label))
+        # Per-wave pages
+        waves_dir = internals_dst / "waves"
+        if waves_dir.exists():
+            wave_files = sorted(waves_dir.glob("wave-*.md"))
+            for wf in wave_files:
+                # "wave-00-sanity" -> "Wave 0: sanity"
+                stem = wf.stem  # e.g. wave-00-sanity
+                parts = stem.split("-", 2)  # ['wave', '00', 'sanity']
+                if len(parts) >= 3:
+                    label = f"Wave {int(parts[1])}: {parts[2]}"
+                else:
+                    label = stem
+                internals_waves.append((f"build-internals/waves/{wf.name}", label))
+            meta = waves_dir / "meta-site-and-docs.md"
+            if meta.exists():
+                internals_waves.append(("build-internals/waves/meta-site-and-docs.md", "Meta site + docs"))
+        # Trailing chapters (after the waves group)
+        for filename, label in pages_after_waves:
+            if (internals_dst / filename).exists():
+                internals_chapters.append((f"build-internals/{filename}", "__AFTER__" + label))
+
     # Generate SUMMARY.md
     summary = ["# Summary", ""]
     summary.append("[Home](index.md)")
@@ -187,10 +232,34 @@ def main() -> None:
             summary.append(f"- [{stub_title(slug)}]({slug}/README.md)")
         summary.append("")
 
+    # Build internals section (only if BUILD_INTERNALS/ exists)
+    if internals_chapters:
+        summary.append("# Build internals")
+        summary.append("")
+        # Pre-waves chapters
+        for path, label in internals_chapters:
+            if label.startswith("__AFTER__"):
+                continue
+            summary.append(f"- [{label}]({path})")
+        # Waves group
+        if internals_waves:
+            summary.append("- [Per-wave details](build-internals/waves/README.md)")
+            for path, label in internals_waves:
+                summary.append(f"  - [{label}]({path})")
+        # Post-waves chapters
+        for path, label in internals_chapters:
+            if label.startswith("__AFTER__"):
+                summary.append(f"- [{label[len('__AFTER__'):]}]({path})")
+        summary.append("")
+
     (SRC / "SUMMARY.md").write_text("\n".join(summary) + "\n")
 
     n_chapters = len(all_stubs) - len(missing)
-    print(f"Built {SRC} with {n_chapters} stub chapters + 4 top-level pages")
+    n_internals = len(internals_chapters) + len(internals_waves)
+    print(
+        f"Built {SRC} with {n_chapters} stub chapters + 4 top-level pages"
+        + (f" + {n_internals} build-internals pages" if n_internals else "")
+    )
 
 
 if __name__ == "__main__":
