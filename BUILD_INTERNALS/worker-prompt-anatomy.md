@@ -2,6 +2,15 @@
 
 One worker's first prompt, annotated. This is the actual message the orchestrator sent to spawn `adding-problem-builder` (wave 6, session `19f9d639`).
 
+## On this page
+
+- [Worker lifecycle](#worker-lifecycle) — state diagram of how a worker progresses from spawn to shutdown
+- [The full prompt](#the-full-prompt) — the whole template (collapsed by default)
+- [Section-by-section](#section-by-section) — what each part of the template does and why
+- [The TeamCreate setup](#the-teamcreate-setup) — the team contract every worker inherits
+- [Worker → lead messaging](#worker--lead-messaging) — how workers report back and get torn down
+- [Why this template held up](#why-this-template-held-up) — six properties that made it reusable
+
 ## Worker lifecycle
 
 ```mermaid
@@ -22,6 +31,11 @@ stateDiagram-v2
 A clean worker run is the top path: spawn → read → build → commit → summary → shutdown. The bottom path is the recovery branch: when a worker went silent after committing, the lead nudged it with "send your summary now" (visible in 3 wave-3 sessions).
 
 ## The full prompt
+
+The full template as the worker received it. Click to expand — the section-by-section breakdown below is the part worth reading sequentially.
+
+<details>
+<summary>Show the full <code>&lt;teammate-message&gt;</code></summary>
 
 ```
 <teammate-message teammate_id="team-lead">
@@ -76,6 +90,8 @@ Headline: "LSTM solves T=N adding problem in M sequences; vanilla RNN with same 
 You have all tools. Work autonomously.
 </teammate-message>
 ```
+
+</details>
 
 ## Section-by-section
 

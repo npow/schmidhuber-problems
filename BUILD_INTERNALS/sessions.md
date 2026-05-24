@@ -175,5 +175,5 @@ Catch-up / handoff / sync sessions after the build.
 | `a9e81d32` | 2026-05-09T18:58 | 64 | 326 | $304.91 | Memory written. Here's the paste-ready handoff prompt.    Copy-paste this into t |
 | `73f32970` | 2026-05-20T12:02 | 10 | 198 | $186.58 | okay lets sync everything google docs, telegram, new channels, every thread, per |
 | `56008862` | 2026-05-21T14:08 | 2 | 27 | $12.58 | I cant tell if im being called out or not for the convo in chat-yad |
-| `f3dc6d76` | 2026-05-23T22:43 | 6 | 310 | $195.56 | ok we need to merge and start working on a new initiatve |
+| `f3dc6d76` | 2026-05-23T22:43 | 9 | 423 | $269.02 | ok we need to merge and start working on a new initiatve |
 

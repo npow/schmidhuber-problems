@@ -171,50 +171,60 @@ def main() -> None:
     if missing:
         print(f"WARNING: {len(missing)} stub folders missing: {missing}")
 
-    # Build internals section — mirrored from SutroYaro/analysis/schmidhuber-orchestration
-    # by that repo's build_artifact.py. Source of truth: SutroYaro. Updated when the
-    # mirror writes here.
+    # Build internals — mirrored from SutroYaro/analysis/schmidhuber-orchestration
+    # by that repo's build_artifact.py. Source of truth: SutroYaro. Updated when
+    # the mirror writes here. Grouped into 4 sidebar sections.
     internals_src = ROOT / "BUILD_INTERNALS"
-    internals_chapters: list[tuple[str, str]] = []  # (page_path, link_label)
-    internals_waves: list[tuple[str, str]] = []     # (page_path, label)
+    internals_sections: list[tuple[str, list[tuple[str, str, str]]]] = []
+    # Each entry: (section_title, [(filename, label, kind)])
+    # kind ∈ {"page", "waves_parent"} — waves_parent expands inline with the
+    # 13 per-wave sub-pages indented underneath.
     if internals_src.exists():
         internals_dst = SRC / "build-internals"
         shutil.copytree(internals_src, internals_dst)
-        # Top-level pages, in two groups: before waves, after waves
-        pages_before_waves = [
-            ("README.md",                  "Overview"),
-            ("orchestration-map.md",       "Orchestration map"),
-            ("sessions.md",                "Sessions"),
-            ("cost-rollup.md",             "Cost rollup"),
-            ("worker-prompt-anatomy.md",   "Worker prompt anatomy"),
-            ("patterns.md",                "Patterns observed"),
-        ]
-        pages_after_waves = [
-            ("next-phase.md",              "Next phase"),
-        ]
-        for filename, label in pages_before_waves:
-            if (internals_dst / filename).exists():
-                internals_chapters.append((f"build-internals/{filename}", label))
-        # Per-wave pages
+        # Discover wave pages for the orchestration section
+        wave_entries: list[tuple[str, str]] = []
         waves_dir = internals_dst / "waves"
         if waves_dir.exists():
-            wave_files = sorted(waves_dir.glob("wave-*.md"))
-            for wf in wave_files:
-                # "wave-00-sanity" -> "Wave 0: sanity"
-                stem = wf.stem  # e.g. wave-00-sanity
-                parts = stem.split("-", 2)  # ['wave', '00', 'sanity']
-                if len(parts) >= 3:
-                    label = f"Wave {int(parts[1])}: {parts[2]}"
-                else:
-                    label = stem
-                internals_waves.append((f"build-internals/waves/{wf.name}", label))
+            for wf in sorted(waves_dir.glob("wave-*.md")):
+                stem = wf.stem  # wave-00-sanity
+                parts = stem.split("-", 2)
+                label = f"Wave {int(parts[1])}: {parts[2]}" if len(parts) >= 3 else stem
+                wave_entries.append((f"build-internals/waves/{wf.name}", label))
             meta = waves_dir / "meta-site-and-docs.md"
             if meta.exists():
-                internals_waves.append(("build-internals/waves/meta-site-and-docs.md", "Meta site + docs"))
-        # Trailing chapters (after the waves group)
-        for filename, label in pages_after_waves:
-            if (internals_dst / filename).exists():
-                internals_chapters.append((f"build-internals/{filename}", "__AFTER__" + label))
+                wave_entries.append(("build-internals/waves/meta-site-and-docs.md", "Meta site + docs"))
+
+        def page(filename, label):
+            path = internals_dst / filename
+            return (f"build-internals/{filename}", label, "page") if path.exists() else None
+
+        def filter_pages(*entries):
+            return [e for e in entries if e is not None]
+
+        internals_sections = [
+            ("Build internals", filter_pages(
+                page("README.md", "Overview"),
+            )),
+            ("The orchestration", filter_pages(
+                page("orchestration-map.md", "Map"),
+                page("sessions.md", "Sessions"),
+                page("cost-rollup.md", "Cost rollup"),
+            ) + ([
+                ("build-internals/waves/README.md", "Per-wave details", "waves_parent"),
+            ] if wave_entries else [])),
+            ("The worker template", filter_pages(
+                page("worker-prompt-anatomy.md", "Prompt anatomy"),
+                page("patterns.md", "Patterns observed"),
+            )),
+            ("Roadmap", filter_pages(
+                page("next-phase.md", "Next phase"),
+            )),
+        ]
+        # Keep wave_entries accessible to the SUMMARY writer below
+        internals_sections_waves = wave_entries
+    else:
+        internals_sections_waves = []
 
     # Generate SUMMARY.md
     summary = ["# Summary", ""]
@@ -232,30 +242,23 @@ def main() -> None:
             summary.append(f"- [{stub_title(slug)}]({slug}/README.md)")
         summary.append("")
 
-    # Build internals section (only if BUILD_INTERNALS/ exists)
-    if internals_chapters:
-        summary.append("# Build internals")
+    # Build internals — emit each grouped section as its own sidebar header
+    for section_title, entries in internals_sections:
+        if not entries:
+            continue
+        summary.append(f"# {section_title}")
         summary.append("")
-        # Pre-waves chapters
-        for path, label in internals_chapters:
-            if label.startswith("__AFTER__"):
-                continue
+        for path, label, kind in entries:
             summary.append(f"- [{label}]({path})")
-        # Waves group
-        if internals_waves:
-            summary.append("- [Per-wave details](build-internals/waves/README.md)")
-            for path, label in internals_waves:
-                summary.append(f"  - [{label}]({path})")
-        # Post-waves chapters
-        for path, label in internals_chapters:
-            if label.startswith("__AFTER__"):
-                summary.append(f"- [{label[len('__AFTER__'):]}]({path})")
+            if kind == "waves_parent":
+                for wpath, wlabel in internals_sections_waves:
+                    summary.append(f"  - [{wlabel}]({wpath})")
         summary.append("")
 
     (SRC / "SUMMARY.md").write_text("\n".join(summary) + "\n")
 
     n_chapters = len(all_stubs) - len(missing)
-    n_internals = len(internals_chapters) + len(internals_waves)
+    n_internals = sum(len(entries) for _, entries in internals_sections) + len(internals_sections_waves)
     print(
         f"Built {SRC} with {n_chapters} stub chapters + 4 top-level pages"
         + (f" + {n_internals} build-internals pages" if n_internals else "")
