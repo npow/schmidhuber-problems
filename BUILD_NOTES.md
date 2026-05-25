@@ -187,7 +187,7 @@ Why cache reads dominate: 822 assistant turns on the lead alone × growing conve
 
 74 distinct sessions worth of work participated: lead + 73 subagent dispatches (58 builders + 15 auditors). Claude Code spawns each subagent dispatch in its own session; the lead's JSONL only records the dispatch call and the subagent's final return, not the subagent's internal turns.
 
-**Caveat**: the 75 files include some unrelated parallel work that happened to share the SutroYaro project dir during the calendar window (status checks, Hinton precedent inspection). Schmidhuber-only volume is ~95% of the 1.15B figure. The chimera project Yad worked on in parallel lives in a different `~/.claude/projects/` dir and was filtered out.
+**Caveat**: the 75 files include some unrelated parallel work that happened to share the SutroYaro project dir during the calendar window (status checks, Hinton precedent inspection). Schmidhuber-only volume is ~95% of the 1.13B figure. The chimera project Yad worked on in parallel lives in a different `~/.claude/projects/` dir and was filtered out.
 
 The full explainer of how to read these numbers (and how the harness UI display ≠ build cost) is in [issue #19](https://github.com/cybertronai/schmidhuber-problems/issues/19).
 
@@ -286,7 +286,7 @@ Three concrete error recoveries are visible in the session log:
 - **41.3 wall hours** end-to-end (May 6 23:03 → May 8 16:16 UTC, 3 distinct days)
 - **5 GitHub issues**, **14 PRs created** (1 closed-and-reissued), **13 audit comments**, **13 merges in one batch**
 - **1 `TeamCreate`**, **1 `TeamDelete`**, **58 named builders** + **15 audit subagents**
-- **74 distinct sessions** (lead + 73 subagent dispatches) consuming **~1.15 billion tokens total**, of which **91% is cache_read** (re-loaded prefix from prior turns). Harness "780k" display is current context-window utilisation, not cumulative cost. Full breakdown in [issue #19](https://github.com/cybertronai/schmidhuber-problems/issues/19).
+- **74 distinct sessions** (lead + 73 subagent dispatches) consuming **1.13 billion tokens** at a cost of **$3,879** (Opus 4.x public pricing), of which **94.5% is cache_read** (re-loaded prefix from prior turns). Harness "780k" display is current context-window utilisation, not cumulative cost. Full breakdown: [Build internals FAQ](https://cybertronai.github.io/schmidhuber-problems/build-internals/faq.html), [Cost rollup](https://cybertronai.github.io/schmidhuber-problems/build-internals/cost-rollup.html), [issue #19](https://github.com/cybertronai/schmidhuber-problems/issues/19).
 - **Pure numpy + matplotlib**, all under 5-min wallclock per stub except `pipe-6-bit-parity` (240s 6-bit cap), `evolino-sines-mackey-glass` (140s), `lstm-search-space-odyssey` (145s)
 - **Algorithmic-faithfulness coverage**: 9 RL stubs (numpy mini-envs per SPEC), 11 LSTM-family stubs (manual BPTT through cells with various gate variants), 4 evolutionary stubs (no gradient on hidden weights), 3 search stubs (Levin / OOPS / RS), 8 v1.5 substitutes (synthetic numpy data instead of TIMIT/IAM/ISBI/CarRacing/VizDoom/TORCS), 1 equivalence proof (linear-attention ≡ FWP to 2.22e-16)
 
