@@ -208,6 +208,7 @@ def main() -> None:
                 page("faq.md", "FAQ — questions everyone asks"),
                 page("what-worked-didnt.md", "What worked, what didn't"),
                 page("how-to-reproduce.md", "How to reproduce"),
+                page("verify.md", "Verify the numbers yourself"),
             )),
             ("The orchestration", filter_pages(
                 page("orchestration-map.md", "Map"),
