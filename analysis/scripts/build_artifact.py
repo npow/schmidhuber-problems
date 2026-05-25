@@ -758,7 +758,10 @@ def main():
     # Filter to orchestrator dispatches only
     agent_dispatches = [a for a in agent_dispatches if a["session_id"] == ORCHESTRATOR_ID]
 
-    write_readme(orchestrator, workers, auxiliary)
+    # README.md is hand-curated as a blog-style narrative (see MLSys hook).
+    # Don't regenerate it from data; the prose stays stable across data refreshes.
+    # Use the orchestration-map / sessions / cost-rollup pages for the data tables.
+    # If you need the auto-generated version back, call write_readme(...) explicitly.
     write_orchestration_map(orchestrator, workers, agent_dispatches)
     write_sessions_md(orchestrator, workers, auxiliary)
     write_cost_rollup(orchestrator, workers)

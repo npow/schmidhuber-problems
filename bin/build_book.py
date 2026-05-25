@@ -205,6 +205,8 @@ def main() -> None:
         internals_sections = [
             ("Build internals", filter_pages(
                 page("README.md", "Overview"),
+                page("what-worked-didnt.md", "What worked, what didn't"),
+                page("how-to-reproduce.md", "How to reproduce"),
             )),
             ("The orchestration", filter_pages(
                 page("orchestration-map.md", "Map"),
@@ -216,6 +218,10 @@ def main() -> None:
             ("The worker template", filter_pages(
                 page("worker-prompt-anatomy.md", "Prompt anatomy"),
                 page("patterns.md", "Patterns observed"),
+            )),
+            ("Human in the loop", filter_pages(
+                page("human-in-the-loop.md", "Local-minima escape"),
+                page("pivot-moments.md", "Pivot moments (quotes)"),
             )),
             ("Roadmap", filter_pages(
                 page("next-phase.md", "Next phase"),
@@ -242,10 +248,17 @@ def main() -> None:
             summary.append(f"- [{stub_title(slug)}]({slug}/README.md)")
         summary.append("")
 
-    # Build internals — emit each grouped section as its own sidebar header
+    # Build internals — emit each grouped section as its own sidebar header.
+    # Prepend a horizontal-rule separator so the meta-content reads as
+    # visually distinct from the chronological stub catalog above.
+    first_internals_section = True
     for section_title, entries in internals_sections:
         if not entries:
             continue
+        if first_internals_section:
+            summary.append("---")
+            summary.append("")
+            first_internals_section = False
         summary.append(f"# {section_title}")
         summary.append("")
         for path, label, kind in entries:
