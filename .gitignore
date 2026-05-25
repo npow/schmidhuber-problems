@@ -11,3 +11,7 @@ __pycache__/
 src/
 book/
 
+# mdbook-mermaid JS assets — regenerated in CI by `mdbook-mermaid install .`
+mermaid.min.js
+mermaid-init.js
+

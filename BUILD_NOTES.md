@@ -5,6 +5,7 @@
 **Span:** 2026-05-06T23:03 → 2026-05-08T16:16 UTC (~41.3 wall hours)
 **Lead session:** SutroYaro
 **Companion to:** [hinton-problems BUILD_NOTES](https://github.com/cybertronai/hinton-problems/blob/main/BUILD_NOTES.md) (53 Hinton stubs, May 1-3)
+**Drill down:** for per-wave detail, per-session cost, the worker-prompt template, and observed patterns, see [Build internals](build-internals/README.md) — the structured map generated from the session JSONL.
 
 This report is reconstructed from the live session log, **not from memory**. Earlier drafts had fabricated counts; this revision is the source-of-truth version.
 
@@ -81,6 +82,8 @@ It defined:
 ---
 
 ## The orchestration model
+
+For the mermaid version + the per-wave sequence diagram, see [Build internals → Orchestration map](build-internals/orchestration-map.md). The ASCII below is the one-glance summary.
 
 ```
                      ┌──────────────────┐
@@ -191,6 +194,8 @@ The full explainer of how to read these numbers (and how the harness UI display 
 ---
 
 ## The waves at a glance
+
+For per-stub cost, worker session IDs, and the audit dispatch for each wave, see [Build internals → Per-wave details](build-internals/waves/README.md).
 
 | Wave | Family | Stubs | First dispatch (UTC) | PR opened (UTC) | PR # |
 |---|---|---:|---|---|---:|
