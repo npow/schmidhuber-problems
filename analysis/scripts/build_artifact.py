@@ -245,7 +245,7 @@ def write_orchestration_map(orchestrator, workers, agent_dispatches):
         "```mermaid",
         "graph TD",
         "    Yad[\"Yad<br/>(terminal)\"]",
-        f"    Orch[\"orchestrator<br/>{ORCHESTRATOR_ID[:8]}<br/>{orchestrator['hops']} hops, {orchestrator['turns']} turns\"]",
+        f"    Orch[\"orchestrator<br/>{ORCHESTRATOR_ID[:8]}<br/>40 Yad-typed prompts<br/>{orchestrator['turns']} assistant turns\"]",
         "    Team[(\"team: schmidhuber-impl<br/>TeamCreate × 1\")]",
         "    Workers[\"worker sessions × 58<br/>one per stub<br/>spawned via Agent(team_name=...)\"]",
         "    Audits[\"Explore audits × 15<br/>1 initial survey<br/>12 per-wave audits<br/>2 BUILD_NOTES extracts\"]",
@@ -350,21 +350,32 @@ def write_sessions_md(orchestrator, workers, auxiliary):
         "# Sessions",
         "",
         "Every Claude Code session that touched the schmidhuber-problems build.",
-        "Numbers below come straight from `data/sessions.tsv`. Re-generate with:",
+        "Numbers below come straight from `analysis/data/sessions.tsv`. Re-generate with:",
         "",
         "```",
-        "python3 analysis/schmidhuber-orchestration/scripts/analyze_sessions.py",
+        "python3 analysis/scripts/analyze_sessions.py",
         "```",
+        "",
+        "> **Note on the \"Hops\" column.** The analyzer counts every `type=user`",
+        "> record in the JSONL transcript. For workers this is ~1 (the templated",
+        "> teammate-message) plus any lead nudges. For the **orchestrator, the raw",
+        "> hop count of 192 includes 142 worker→orchestrator routed replies** that",
+        "> arrive as `type=user` records. **Actual Yad-typed prompts to the",
+        "> orchestrator: 40** (the other 152 are worker replies, slash commands,",
+        "> skill loaders, and redacted entries). See [Human in the loop](human-in-the-loop.md)",
+        "> for the classification.",
         "",
         "## Orchestrator",
         "",
-        "| Session ID | Role | Start (UTC) | Duration | Hops | Turns | Disp | SMsg | Cost | Total tokens |",
-        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| Session ID | Role | Start (UTC) | Duration | Yad prompts | Raw hops* | Turns | Disp | SMsg | Cost | Total tokens |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
         f"| `{orchestrator['session_id'][:8]}` | orchestrator | {orchestrator['first_ts'][:16]} | "
         f"{((datetime.fromisoformat(orchestrator['last_ts']) - datetime.fromisoformat(orchestrator['first_ts'])).total_seconds()/3600):.1f}h | "
-        f"{orchestrator['hops']} | {orchestrator['turns']} | {len(orchestrator['agent_dispatches'])} | "
+        f"**40** | {orchestrator['hops']}* | {orchestrator['turns']} | {len(orchestrator['agent_dispatches'])} | "
         f"{len(orchestrator['send_messages'])} | {fmt_cost(orchestrator['cost_usd'])} | "
         f"{fmt_tok(total_tokens(orchestrator))} |",
+        "",
+        "*Raw hops = all `type=user` records; the 152 non-Yad records are worker replies + slash + skill outputs.",
         "",
         "Full session ID: `" + orchestrator["session_id"] + "`",
         "",
@@ -723,7 +734,7 @@ The current `data/sessions.tsv` has `hops`, `turns`, and `autonomy_ratio`. The n
 
 - **Per-session autonomy index:** (turns − hops) / turns. Closer to 1.0 = more autonomous.
 - **Per-wave autonomy:** averaged across workers + orchestrator's wave-slice.
-- **Hop classification:** of Yad's {orchestrator['hops']} orchestrator prompts, how many were:
+- **Hop classification:** of Yad's **40 actual orchestrator prompts** (out of {orchestrator['hops']} `type=user` records, the rest being worker replies + slash + skill loaders), how many were:
   - Initial setup (one-shot context)
   - Strategy nudges (one-line course corrections)
   - Approval gates (yes/no on a plan)
@@ -734,11 +745,11 @@ The current `data/sessions.tsv` has `hops`, `turns`, and `autonomy_ratio`. The n
   - Tool call + reasoning (autonomous decision)
   - Plain text (responding to a hop)
 
-A target autonomy ratio for the next build to beat: this build was **{total_turns} turns / {total_hops} hops = {total_turns/max(total_hops,1):.1f}:1**. Can the next one hit 30:1 with the same quality?
+A target autonomy ratio for the next build to beat: this build was **{orchestrator['turns']} orchestrator turns / 40 Yad-typed prompts ≈ 25.7 turns per Yad prompt** in the orchestrator. (The raw `total_turns/total_hops = {total_turns}/{total_hops} = {total_turns/max(total_hops,1):.1f}:1` ratio is misleading — `total_hops` includes worker→orchestrator routing and templated worker first-prompts, not just Yad-typed input.) Can the next build hit 50 turns per Yad prompt without quality regressing?
 
 ## 4. Open questions for the teaching session
 
-- Were the 12 audits worth the cost? Each wave's audit `Explore` call added ~3–8% overhead.
+- Were the 12 per-wave audits worth the cost? Each wave's `Explore` audit dispatch added ~3–8% overhead. (Plus 1 initial repo survey + 2 final BUILD_NOTES extracts = 15 Explore dispatches total in the orchestrator.)
 - The workers' first-hop teammate-message has duplicated context. Could a shorter handoff cut worker cost?
 - Could waves run in **parallel** (e.g. wave 6 and wave 7 simultaneously) instead of serially? They have no dependency.
 - Could the audit step be merged into the worker prompt (self-audit), eliminating one dispatch per wave?

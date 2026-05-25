@@ -6,7 +6,7 @@ On 2026-05-21, [Mark Saroufim mentioned this build in his MLSys keynote](https:/
 
 ## The headline
 
-Between **2026-05-06 23:03** and **2026-05-08 16:16 UTC** — about 41 wall hours with overnight idle gaps — one Claude Code session orchestrated 58 worker sessions to implement 58 papers from Jürgen Schmidhuber's experimental archive (1989–2025). Pure numpy + matplotlib, deterministic, every stub runs in <5 min/seed on a laptop.
+Between **2026-05-06 23:03** and **2026-05-08 16:16 UTC** — about **41 hours** from session start to the wave-11 PR merge, with two overnight idle gaps of ~10 hours each (~21 active hours of attention) — one Claude Code session orchestrated 58 worker sessions to implement 58 papers from Jürgen Schmidhuber's experimental archive (1989–2025). Pure numpy + matplotlib, deterministic, every stub runs in <5 min/seed on a laptop. (The orchestrator session stayed open until 2026-05-09 18:58 UTC for follow-up writeup work; that's the 67.9-hour session span shown on the Sessions page.)
 
 | Metric | Value |
 |---|---:|
@@ -14,13 +14,17 @@ Between **2026-05-06 23:03** and **2026-05-08 16:16 UTC** — about 41 wall hour
 | Numbered waves | 12 (wave 0 sanity + waves 1–10 v1 + wave 11 v1.5) |
 | PRs merged | 13 (one per wave) + 1 meta + 1 token-math fix = 15 |
 | Total estimated cost | **$3,879** at Opus 4.x public pricing |
-| Total tokens | 1.13 billion (94% cache_read) |
-| User prompts ("hops") | 353 total, **192 to the orchestrator alone** |
-| Assistant turns | 7,265 total |
-| Autonomy ratio (turns per hop) | **20.6 : 1** |
-| Subagent dispatches (Agent tool calls) | 73 from the orchestrator |
-| Inter-team messages (SendMessage) | 69 from the orchestrator |
+| Total tokens | **1.13 billion** (94.5% cache_read) |
+| **Yad-typed prompts to the orchestrator** | **40** (across ~21 active hours) |
+| Of those, **direction-changing** | **8** (~20%) |
+| Orchestrator assistant turns | 1,026 |
+| **Turns per Yad-typed prompt (orchestrator)** | **~25.7 : 1** |
+| Combined assistant turns (orch + 58 workers) | 7,265 |
+| Subagent dispatches (Agent tool calls from orchestrator) | 73 (58 `general-purpose` builders + 15 `Explore` audits) |
+| Inter-team messages (SendMessage from orchestrator) | 69 |
 | Bash invocations | 190 |
+
+> **Note on the prompt count.** Earlier drafts of this page said "192 user prompts." That number was the count of every `type=user` record in the orchestrator's JSONL — but **142 of those were worker sessions reporting back to the orchestrator** (their summary + idle messages arrive as `type=user` records in the lead's transcript). The actual Yad-typed prompts to the lead were **40**. The math: 40 Yad + 142 worker-replies + 6 slash commands + 2 skill-loader outputs + 2 redacted = 192 records. Sessions page has the breakdown; Human in the loop has the classification of the 40.
 
 The catalog is at **[cybertronai.github.io/schmidhuber-problems](https://cybertronai.github.io/schmidhuber-problems/)**. The repo is **[github.com/cybertronai/schmidhuber-problems](https://github.com/cybertronai/schmidhuber-problems)**.
 
@@ -69,9 +73,9 @@ The build worked on a rhythm that's worth naming. Yad's own self-summary from 20
 
 > *"we did it again, 780k token, took a little longer, since only paid attention every 18 hour window while i have other things going on"*
 
-192 user prompts over 41 wall hours = one prompt every ~13 minutes when active, but with two overnight gaps of ~10+ hours each. The autonomous loop had to survive these gaps. It mostly did.
+**40 Yad-typed prompts** spread across two days of active attention (the build proper was ~21 of those 41 wall hours; the rest was overnight idle). The autonomous loop had to survive two ~10-hour gaps when Yad was asleep. It mostly did.
 
-Of those 192 prompts, **roughly 8 were direction-changing** (the "Type A" hops in [Human-in-the-loop](human-in-the-loop.md)). The other ~184 were status checks, tool-result routing, and small clarifications. The build was carried by a handful of 1-sentence interventions:
+Of those 40 prompts, **8 were direction-changing** (the "Type A" hops in [Human in the loop](human-in-the-loop.md)). The other 32 were status checks, small clarifications, and acks. The build was carried by a handful of 1-sentence interventions:
 
 > *"why are u doing a branch per impl, should it be per waves?? why the branch spam. THIS IS WRONG PRACTICE COURSE CORRECT!"* — 2026-05-07 01:31 UTC
 
@@ -124,7 +128,7 @@ The deliverable isn't the 58 stubs. The stubs are easy. The deliverable is **a r
 
 ## Credits and lineage
 
-- **Yad Konrad** (`0bserver07`) — the orchestrator-driver of this build. The 192 prompts in `analysis/data/sessions.jsonl` are his.
+- **Yad Konrad** (`0bserver07`) — the orchestrator-driver of this build. The 40 hand-typed prompts in `analysis/data/sessions.jsonl` are his (the other 152 `type=user` records in the orchestrator's transcript are workers reporting back via `SendMessage`).
 - **Yaroslav Bulatov** — proposed implementing Schmidhuber's experimental archive at the start of this build; the SPEC's algorithmic-faithfulness rule is his framing.
 - **Cosmin Negruseri** — the local-minima-escape observation; the writeup ask.
 - **Mark Saroufim** — referenced this work in his 2026-05-21 MLSys keynote, which prompted Cosmin's "you should write this up" message.

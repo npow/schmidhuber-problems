@@ -7,7 +7,7 @@ Hierarchy of sessions and the wave-by-wave timeline.
 ```mermaid
 graph TD
     Yad["Yad<br/>(terminal)"]
-    Orch["orchestrator<br/>63285119<br/>192 hops, 1026 turns"]
+    Orch["orchestrator<br/>63285119<br/>40 Yad-typed prompts<br/>1026 assistant turns"]
     Team[("team: schmidhuber-impl<br/>TeamCreate × 1")]
     Workers["worker sessions × 58<br/>one per stub<br/>spawned via Agent(team_name=...)"]
     Audits["Explore audits × 15<br/>1 initial survey<br/>12 per-wave audits<br/>2 BUILD_NOTES extracts"]
