@@ -220,6 +220,7 @@ def main() -> None:
             ("The worker template", filter_pages(
                 page("worker-prompt-anatomy.md", "Prompt anatomy"),
                 page("patterns.md", "Patterns observed"),
+                page("program-synth-coding-agents.md", "Program synthesis framing"),
             )),
             ("Human in the loop", filter_pages(
                 page("human-in-the-loop.md", "Local-minima escape"),

@@ -1,5 +1,7 @@
 # Waves
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 Twelve numbered waves (0–11), each its own PR. Plus meta PR #16 and docs PR #20.
 
 | Wave | Slug | PR | Branch | Stubs | Workers | Wave cost |

@@ -1,5 +1,7 @@
 # How we built 58 numpy stubs in 40 hours with one orchestrator and 58 throwaway agents
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 On 2026-05-21, [Mark Saroufim mentioned this build in his MLSys keynote](https://x.com/marksaroufim/status/2057252867028005352). This page is the structured map of what actually happened — the orchestrator session, the 58 worker sessions, the 12 waves, the dollar numbers, the two prompts that reshaped the protocol mid-build, the things that went wrong.
 
 > *"learnings, what worked well, what didn't, how to repro, push to hacker news and linkedin"* — Cosmin Negruseri, who suggested writing this up.

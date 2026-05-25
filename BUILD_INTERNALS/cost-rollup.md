@@ -1,5 +1,7 @@
 # Cost Rollup
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 Estimated at Opus 4.x public pricing (May 2026): input $15/M, output $75/M, cache_read $1.50/M, cache_write_5m $18.75/M, cache_write_1h $30/M.
 
 ## Cost composition

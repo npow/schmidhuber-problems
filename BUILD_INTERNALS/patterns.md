@@ -1,5 +1,7 @@
 # Patterns observed in this orchestration
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 What worked, what cost a lot, and what's worth carrying forward. All claims here are backed by numbers in `data/sessions.tsv` and the per-wave files.
 
 ## 1. One persistent team, 58 ephemeral teammates

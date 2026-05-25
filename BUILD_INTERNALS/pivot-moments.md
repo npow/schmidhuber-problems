@@ -1,6 +1,8 @@
 # Pivot moments — verbatim Yad prompts
 
-Every user prompt during the build that was longer than a status check, with the timestamp it landed and (where applicable) what changed afterwards. Pulled directly from `../analysis/data/sessions.jsonl`, orchestrator session `63285119-154e-42ab-9555-7a42471b0309`.
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
+Every user prompt during the build that was longer than a status check, with the timestamp it landed and (where applicable) what changed afterwards. Pulled directly from `analysis/data/sessions.jsonl`, orchestrator session `63285119-154e-42ab-9555-7a42471b0309`.
 
 Twelve of these are quotable. Six reshaped the build.
 

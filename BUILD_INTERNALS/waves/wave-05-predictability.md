@@ -1,5 +1,7 @@
 # Wave 5: predictability
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#9](https://github.com/cybertronai/schmidhuber-problems/pull/9)  
 - **Branch:** `wave/5-predictability`  
 - **Stubs:** 4  

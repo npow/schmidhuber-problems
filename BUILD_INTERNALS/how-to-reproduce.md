@@ -1,5 +1,7 @@
 # How to reproduce a build like this
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 A concrete recipe to run a parallel-agent stub catalog of your own. Every step here was used in the actual schmidhuber-problems build; file paths and PR numbers point to verifiable artifacts.
 
 > Prerequisite: Claude Code with the `agent-teams` primitive (`TeamCreate`, `Agent`, `SendMessage`, `TeamDelete`). At time of writing this is Claude Code's tool surface for orchestrator/subagent coordination.

@@ -1,5 +1,7 @@
 # Next phase — trace export, language scrub, hops vs autonomous turns
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 This artifact captures the **map** of what was orchestrated. The next phase is the **analysis**.
 
 ## 1. Export traces / sessions

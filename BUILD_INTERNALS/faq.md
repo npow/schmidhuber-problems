@@ -1,5 +1,7 @@
 # FAQ — the questions everyone asks
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 The five questions that come up every time this build gets shown. Every number below is verified against `analysis/data/sessions.jsonl` (the orchestrator's JSONL transcript) — the same source the rest of these pages draw from.
 
 ## "Wow Claude can one-shot go for 30 hours on Schmidhuber?"

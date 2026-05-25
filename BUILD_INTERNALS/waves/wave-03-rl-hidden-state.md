@@ -1,5 +1,7 @@
 # Wave 3: rl-hidden-state
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#7](https://github.com/cybertronai/schmidhuber-problems/pull/7)  
 - **Branch:** `wave/3-rl-hidden-state`  
 - **Stubs:** 5  

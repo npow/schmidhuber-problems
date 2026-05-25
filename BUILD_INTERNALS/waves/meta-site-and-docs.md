@@ -1,5 +1,7 @@
 # Meta PR — site + BUILD_NOTES + RESULTS + VISUAL_TOUR
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#16](https://github.com/cybertronai/schmidhuber-problems/pull/16)
 - **Branch:** `meta/site-and-docs`
 - **Merged:** 2026-05-08 15:50 UTC

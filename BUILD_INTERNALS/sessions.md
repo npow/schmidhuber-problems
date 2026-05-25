@@ -1,5 +1,7 @@
 # Sessions
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 Every Claude Code session that touched the schmidhuber-problems build.
 Numbers below come straight from `analysis/data/sessions.tsv`. Re-generate with:
 

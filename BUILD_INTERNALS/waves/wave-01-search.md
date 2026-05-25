@@ -1,5 +1,7 @@
 # Wave 1: search
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#4](https://github.com/cybertronai/schmidhuber-problems/pull/4)  
 - **Branch:** `wave/1-search`  
 - **Stubs:** 6  

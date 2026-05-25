@@ -1,5 +1,7 @@
 # Human-in-the-loop as local-minima escape
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 > "I have the feeling I was useful by pinging some wave of agents to do diagnostics and that got the solution out of a local minima."
 > — Cosmin Negruseri, 2026-05-14
 

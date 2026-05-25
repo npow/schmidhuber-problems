@@ -1,5 +1,7 @@
 # Wave 11: v1.5
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#15](https://github.com/cybertronai/schmidhuber-problems/pull/15)  
 - **Branch:** `wave/11-v1.5`  
 - **Stubs:** 8  
