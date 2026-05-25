@@ -205,6 +205,7 @@ def main() -> None:
         internals_sections = [
             ("Build internals", filter_pages(
                 page("README.md", "Overview"),
+                page("faq.md", "FAQ — questions everyone asks"),
                 page("what-worked-didnt.md", "What worked, what didn't"),
                 page("how-to-reproduce.md", "How to reproduce"),
             )),
