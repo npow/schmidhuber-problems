@@ -1,5 +1,7 @@
 # Verify the numbers yourself
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 The promise: **every number on these pages traces back to `analysis/data/sessions.jsonl`** — the raw transcript of the orchestrator session that drove this build, plus the 58 worker session JSONLs it spawned. The scripts that extracted those numbers are in [`analysis/scripts/`](https://github.com/cybertronai/schmidhuber-problems/tree/main/analysis/scripts) and the data is in [`analysis/data/`](https://github.com/cybertronai/schmidhuber-problems/tree/main/analysis/data). You can re-run, spot-check, or audit any specific claim.
 
 ## The pipeline (3 steps, ~3 minutes total)

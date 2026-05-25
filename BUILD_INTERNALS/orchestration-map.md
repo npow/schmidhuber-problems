@@ -1,5 +1,7 @@
 # Orchestration Map
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 Hierarchy of sessions and the wave-by-wave timeline.
 
 ## Topology

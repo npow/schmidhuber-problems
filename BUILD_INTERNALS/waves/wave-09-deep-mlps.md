@@ -1,5 +1,7 @@
 # Wave 9: deep-mlps
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#13](https://github.com/cybertronai/schmidhuber-problems/pull/13)  
 - **Branch:** `wave/9-deep-mlps`  
 - **Stubs:** 4  

@@ -238,6 +238,8 @@ def write_orchestration_map(orchestrator, workers, agent_dispatches):
     lines = [
         "# Orchestration Map",
         "",
+        "*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*",
+        "",
         "Hierarchy of sessions and the wave-by-wave timeline.",
         "",
         "## Topology",
@@ -348,6 +350,8 @@ def write_sessions_md(orchestrator, workers, auxiliary):
     """One big table of every session."""
     lines = [
         "# Sessions",
+        "",
+        "*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*",
         "",
         "Every Claude Code session that touched the schmidhuber-problems build.",
         "Numbers below come straight from `analysis/data/sessions.tsv`. Re-generate with:",
@@ -465,6 +469,8 @@ def write_cost_rollup(orchestrator, workers):
     lines = [
         "# Cost Rollup",
         "",
+        "*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*",
+        "",
         f"Estimated at Opus 4.x public pricing (May 2026): "
         f"input ${15}/M, output ${75}/M, cache_read $1.50/M, cache_write_5m $18.75/M, cache_write_1h $30/M.",
         "",
@@ -567,6 +573,8 @@ def write_waves(orchestrator, workers, agent_dispatches):
     lines = [
         "# Waves",
         "",
+        "*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*",
+        "",
         "Twelve numbered waves (0–11), each its own PR. Plus meta PR #16 and docs PR #20.",
         "",
         "| Wave | Slug | PR | Branch | Stubs | Workers | Wave cost |",
@@ -610,6 +618,8 @@ def write_waves(orchestrator, workers, agent_dispatches):
                 wtokens[k] += v
         out = [
             f"# Wave {wave_num}: {slug}",
+            "",
+            "*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*",
             "",
             f"- **PR:** [#{pr}](https://github.com/cybertronai/schmidhuber-problems/pull/{pr})  ",
             f"- **Branch:** `{branch}`  ",
@@ -680,6 +690,8 @@ def write_waves(orchestrator, workers, agent_dispatches):
     # Meta PR file
     write_md("waves/meta-site-and-docs.md", """# Meta PR — site + BUILD_NOTES + RESULTS + VISUAL_TOUR
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#16](https://github.com/cybertronai/schmidhuber-problems/pull/16)
 - **Branch:** `meta/site-and-docs`
 - **Merged:** 2026-05-08 15:50 UTC
@@ -707,6 +719,8 @@ def write_next_phase(orchestrator, workers):
     total_hops = orchestrator["hops"] + sum(w["hops"] for w in workers)
     total_turns = orchestrator["turns"] + sum(w["turns"] for w in workers)
     write_md("next-phase.md", f"""# Next phase — trace export, language scrub, hops vs autonomous turns
+
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
 
 This artifact captures the **map** of what was orchestrated. The next phase is the **analysis**.
 

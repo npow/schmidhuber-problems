@@ -1,5 +1,7 @@
 # Wave 0: sanity
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#5](https://github.com/cybertronai/schmidhuber-problems/pull/5)  
 - **Branch:** `wave/0-sanity`  
 - **Stubs:** 1  

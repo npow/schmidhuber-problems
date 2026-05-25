@@ -1,5 +1,7 @@
 # Wave 10: modern
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#14](https://github.com/cybertronai/schmidhuber-problems/pull/14)  
 - **Branch:** `wave/10-modern`  
 - **Stubs:** 5  

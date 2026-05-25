@@ -1,5 +1,7 @@
 # Anatomy of a Worker Prompt
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 One worker's first prompt, annotated. This is the actual message the orchestrator sent to spawn `adding-problem-builder` (wave 6, session `19f9d639`).
 
 ## On this page

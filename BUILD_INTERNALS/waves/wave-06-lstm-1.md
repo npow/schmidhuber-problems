@@ -1,5 +1,7 @@
 # Wave 6: lstm-1
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#10](https://github.com/cybertronai/schmidhuber-problems/pull/10)  
 - **Branch:** `wave/6-lstm-1`  
 - **Stubs:** 6  

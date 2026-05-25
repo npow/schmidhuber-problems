@@ -1,5 +1,7 @@
 # Wave 2: local-rules
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#6](https://github.com/cybertronai/schmidhuber-problems/pull/6)  
 - **Branch:** `wave/2-local-rules`  
 - **Stubs:** 5  

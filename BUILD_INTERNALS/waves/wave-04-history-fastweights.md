@@ -1,5 +1,7 @@
 # Wave 4: history-fastweights
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#8](https://github.com/cybertronai/schmidhuber-problems/pull/8)  
 - **Branch:** `wave/4-history-fastweights`  
 - **Stubs:** 5  

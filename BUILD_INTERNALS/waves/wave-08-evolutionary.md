@@ -1,5 +1,7 @@
 # Wave 8: evolutionary
 
+*By Yad Konrad — [@0bserver07](https://github.com/0bserver07)*
+
 - **PR:** [#12](https://github.com/cybertronai/schmidhuber-problems/pull/12)  
 - **Branch:** `wave/8-evolutionary`  
 - **Stubs:** 4  
