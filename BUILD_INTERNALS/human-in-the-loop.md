@@ -6,16 +6,18 @@
 > "Seems to enter the local minima fairly quickly so adding some skills to creatively explore different directions."
 > — Sung Jae Bae, 2026-05-21
 
-A claim worth taking seriously: **a long-running autonomous agent loop will hit local minima fast, and a sparse human ping is enough to escape.** This page tests that claim against the 192 user prompts logged in the schmidhuber-problems orchestrator session.
+A claim worth taking seriously: **a long-running autonomous agent loop will hit local minima fast, and a sparse human ping is enough to escape.** This page tests that claim against the **40 Yad-typed prompts** logged in the schmidhuber-problems orchestrator session.
+
+> **Important framing.** The orchestrator's JSONL contains 192 records of `type=user`, but only **40 are prompts Yad actually typed**. The other 152 are worker sessions reporting back to the orchestrator (their idle/summary messages route through `SendMessage` and surface in the lead's transcript as `type=user` records), plus 6 slash commands, 2 skill-loader outputs, and 2 redacted entries. **Every number below uses the 40-prompt count.**
 
 ## The numbers
 
-- **Total hops (user prompts):** 192
-- **Total assistant turns:** 1,026
-- **Autonomy ratio:** 1,026 / 192 ≈ **5.3 turns per hop** in the orchestrator
-- **Combined orchestrator + 58 workers:** 7,265 turns / 353 hops ≈ **20.6:1**
+- **Yad-typed prompts to the orchestrator:** 40
+- **Orchestrator assistant turns:** 1,026
+- **Turns per Yad prompt (orchestrator):** 1,026 / 40 ≈ **25.7**
+- **Active wall-clock:** ~21 hours of attention spread across 41 hours (two ~10-hour overnight idle gaps)
 
-If every hop was load-bearing, this would be a high human-attention build. It wasn't. Most hops were 1-line nudges. A small minority of hops did the load-bearing work.
+If every Yad prompt was load-bearing, this would be a high human-attention build. It wasn't. Most were 1-line nudges. A small minority did the load-bearing work.
 
 ## Three classes of hop
 
@@ -36,7 +38,7 @@ These reshape the build. The autonomous loop wouldn't have found these on its ow
 | 2026-05-08T15:42 | *"i still see the agents man / where and why the site link is not in the gihub repo / have we verified thse things to be truely done or left over?"* | Surfaced the unmerged-PRs gap. Explicit merge instruction followed. The batch-merge of all 13 PRs happened minutes after this. |
 | 2026-05-08T16:09 | *Redacted (frustrated venting about agent identity)* | Triggered the git filter-branch rewrite (74 commits → Yad Konrad). |
 
-**Count: 8 Type-A hops.** That's 4% of the total. Each one reshaped the protocol.
+**Count: 8 Type-A hops out of 40 Yad-typed prompts = 20%.** One in five prompts Yad sent reshaped the protocol.
 
 ### Type B — status checks (frequent, low-cost)
 
@@ -61,9 +63,16 @@ Explicit approval moments. Few but load-bearing.
 
 The actual batch-merge of 13 PRs happened automatically after the autonomous loop completed; Yad's role was only to approve. ~5 Type-C hops total.
 
-### Most of the remaining 170+ hops were teammate-message routing
+### Where the other 152 `type=user` records came from
 
-The bulk of the orchestrator's `type=user` records are not Yad — they're tool results (worker `SendMessage` replies routed back) and hook outputs. The 192 Yad prompts include the Type A/B/C above and a long tail of small clarifications and acknowledgements.
+Of the 192 `type=user` records in the orchestrator's JSONL transcript:
+
+- **142 were workers reporting back to the orchestrator** — each `SendMessage` from a worker to `team-lead` surfaces in the lead's transcript as a `type=user` record with a `<teammate-message teammate_id="<worker>">` envelope.
+- **6 were slash commands** (`/login`, etc.)
+- **2 were skill-loader outputs** (`sutro-sync` skill invocations)
+- **2 were redacted** (one foul-language frustrated venting, one image attachment path leak)
+
+Yad's actual hand-typed prompts are the **40** classified below.
 
 ## The local-minima-escape claim, tested
 
@@ -91,24 +100,24 @@ This was a local-minima escape **by the lead, not by Yad.** Three later wave-3/w
 
 The autonomous loop **did not** self-discover the branch-spam problem. The lead's audit subagent didn't either — the audits checked stub quality, not workflow correctness. It took an outside perspective (Yad) at 01:31 to point at the pattern.
 
-This is the load-bearing observation: **outside perspective is the rare commodity.** A long-running agent loop builds internal consistency fast and protects it. The 192 prompts in this build broke down as roughly:
+This is the load-bearing observation: **outside perspective is the rare commodity.** A long-running agent loop builds internal consistency fast and protects it. **Yad's 40 prompts** broke down as roughly:
 
-| Class | Count | Share |
+| Class | Count | Share of Yad's 40 |
 |---|---:|---:|
-| Type A (direction-changing) | 8 | 4% |
-| Type B (status checks) | ~15 | 8% |
-| Type C (review/merge gate) | ~5 | 3% |
-| Tool-result routing + acknowledgements | ~164 | 85% |
+| Type A (direction-changing) | 8 | 20% |
+| Type B (status checks) | ~10 | 25% |
+| Type C (review/merge gate) | ~5 | 13% |
+| Type D (small clarifications, acks, copy-edits, follow-up work after wave 11) | ~17 | 42% |
 
-The build was carried by ~8 high-leverage Yad prompts. Everything else was either the autonomous loop or low-cost confirmations.
+The build was carried by **8 high-leverage Yad prompts** out of 40 total. The other 32 were either status check-ins, approval-gate one-liners, or low-cost follow-up after the wave-11 merge.
 
 ## Implications for the next build
 
-If 8 prompts in ~40 hours did 85%+ of the human work, the design questions are:
+If 8 prompts out of 40 did most of the human work, the design questions are:
 
 1. **Can the lead self-detect protocol drift?** Branch-spam was visible in the orchestrator's own `git push` calls. A "wait, am I pushing one branch per stub?" self-check at wave end might have caught it without Yad's prompt.
 2. **Can workers self-audit before idling?** Silent-after-commit was caught reactively. A worker prompt that mandates "send summary then await shutdown" instead of "send summary before idling" might have shifted the failure mode.
-3. **What's the autonomy ceiling?** Combined ratio of 20.6 turns/hop. Hinton-problems (same machinery, week earlier) had a comparable ratio. Is 30:1 reachable? 50:1? Beyond what point does the build silently degrade?
+3. **What's the autonomy ceiling?** Orchestrator: ~25.7 turns per Yad-typed prompt. Hinton-problems (same machinery, week earlier) likely sits in a similar range — re-measure with the same hop classification to compare. Is 50 turns/prompt reachable? 100? Beyond what point does the build silently degrade?
 4. **Is Type A predictable?** The two pivotal Type-A hops were both about protocol, not technical content. Future builds might want a "protocol-only" intervention budget and a "technical-only" intervention budget.
 
 ## Quotes worth keeping for the writeup
@@ -123,7 +132,7 @@ Each is a single sentence that reshaped the protocol or unstuck the loop. The bl
 
 ## Sources
 
-- 192 hops with timestamps: `../analysis/data/sessions.jsonl` (orchestrator session)
-- 267 SendMessage calls: `../analysis/data/team_messages.tsv`
-- 139 Agent dispatches: `../analysis/data/agent_dispatches.tsv`
-- Cosmin and Sung Jae's observations: see chat-yad Telegram thread, 2026-05-14 and 2026-05-21
+- All 192 `type=user` records (40 Yad-typed + 152 routing/system) with timestamps: orchestrator session in `analysis/data/sessions.jsonl`
+- 267 SendMessage calls across all sessions: `analysis/data/team_messages.tsv`
+- 139 Agent dispatches across all sessions (orchestrator's share: 73): `analysis/data/agent_dispatches.tsv`
+- Cosmin and Sung Jae's observations: chat-yad Telegram thread, 2026-05-14 and 2026-05-21

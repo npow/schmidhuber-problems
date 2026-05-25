@@ -108,13 +108,13 @@ Worker turn counts were similarly tight: 46–255, with most clustering at 75–
 
 ## 7. Yad's interventions were sparse and high-leverage
 
-192 user prompts (hops) over 25 active hours = ~8 hops per hour, or one hop every ~8 minutes. But the orchestrator made 1,026 assistant turns in that span — an autonomy ratio of **5.3 turns per hop** inside the orchestrator.
+**40 Yad-typed prompts** to the orchestrator over ~21 hours of active attention (spread across 41 wall hours with two ~10-hour overnight gaps). The orchestrator emitted 1,026 assistant turns in that span — **~25.7 turns per Yad prompt** inside the orchestrator.
 
-Within worker sessions, autonomy was higher: 1–5 hops per worker (mostly 2–3), against 46–255 turns. Worker autonomy ratio averaged **~30 turns per hop**.
+> The orchestrator's JSONL has 192 records of `type=user`. The other 152 are workers reporting back, slash commands, skill outputs, and redacted entries — not Yad's prompts. See [Human in the loop](human-in-the-loop.md) for the breakdown.
 
-Combined autonomy across the build: 7,265 turns / 353 hops = **20.6 turns per hop**.
+Of the 40 Yad prompts, **8 (20%) were direction-changing**. The other 32 were status checks, approval-gate one-liners, and small clarifications.
 
-The next phase will classify what those 353 hops actually were (setup, course corrections, approval gates, recovery, closing). The hypothesis: most hops were 1-line nudges, not full restatements of the task.
+Workers got ~1 hop each (the templated `<teammate-message>` from the lead) plus the occasional nudge if they went silent, against 46–255 turns per worker. Most workers were never directly addressed by Yad — they only saw the lead.
 
 ## 8. Workers worked in deterministic worktree paths
 

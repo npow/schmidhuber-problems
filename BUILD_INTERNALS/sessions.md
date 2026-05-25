@@ -1,17 +1,28 @@
 # Sessions
 
 Every Claude Code session that touched the schmidhuber-problems build.
-Numbers below come straight from `data/sessions.tsv`. Re-generate with:
+Numbers below come straight from `analysis/data/sessions.tsv`. Re-generate with:
 
 ```
-python3 analysis/schmidhuber-orchestration/scripts/analyze_sessions.py
+python3 analysis/scripts/analyze_sessions.py
 ```
+
+> **Note on the "Hops" column.** The analyzer counts every `type=user`
+> record in the JSONL transcript. For workers this is ~1 (the templated
+> teammate-message) plus any lead nudges. For the **orchestrator, the raw
+> hop count of 192 includes 142 worker→orchestrator routed replies** that
+> arrive as `type=user` records. **Actual Yad-typed prompts to the
+> orchestrator: 40** (the other 152 are worker replies, slash commands,
+> skill loaders, and redacted entries). See [Human in the loop](human-in-the-loop.md)
+> for the classification.
 
 ## Orchestrator
 
-| Session ID | Role | Start (UTC) | Duration | Hops | Turns | Disp | SMsg | Cost | Total tokens |
-|---|---|---|---:|---:|---:|---:|---:|---:|---:|
-| `63285119` | orchestrator | 2026-05-06T23:01 | 67.9h | 192 | 1026 | 73 | 69 | $1,283.73 | 487,710,910 |
+| Session ID | Role | Start (UTC) | Duration | Yad prompts | Raw hops* | Turns | Disp | SMsg | Cost | Total tokens |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `63285119` | orchestrator | 2026-05-06T23:01 | 67.9h | **40** | 192* | 1026 | 73 | 69 | $1,283.73 | 487,710,910 |
+
+*Raw hops = all `type=user` records; the 152 non-Yad records are worker replies + slash + skill outputs.
 
 Full session ID: `63285119-154e-42ab-9555-7a42471b0309`
 

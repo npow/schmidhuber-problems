@@ -129,7 +129,7 @@ Reference: [PR #16](https://github.com/cybertronai/schmidhuber-problems/pull/16)
 
 Estimate per the schmidhuber data (58 stubs):
 
-- **Orchestrator session**: ~\$1,283 (192 user prompts, 1,026 assistant turns over ~25 active hours)
+- **Orchestrator session**: ~\$1,283 (40 Yad-typed prompts, 1,026 assistant turns over ~21 active hours of attention spread across 41 wall hours)
 - **Per worker**: median \$41, range \$21-\$122 (one outlier — `pipe-6-bit-parity` hit a tricky LSTM training issue)
 - **Per wave**: \$146 (deep-mlps, simple) to \$317 (v1.5, heavyweight)
 - **Total**: \$3,879 at Opus 4.x public pricing

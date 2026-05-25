@@ -1,6 +1,6 @@
 # What worked, what didn't
 
-Binary-classified observations. Each row has the **moment of discovery** (timestamp from the orchestrator's session log) and the **fix that landed**. Drawn from the actual 192 user prompts + 73 Agent dispatches + 69 SendMessages in session `63285119-154e-42ab-9555-7a42471b0309`.
+Binary-classified observations. Each row has the **moment of discovery** (timestamp from the orchestrator's session log) and the **fix that landed**. Drawn from the actual **40 Yad-typed prompts** + 73 Agent dispatches + 69 SendMessages in orchestrator session `63285119-154e-42ab-9555-7a42471b0309`. (The orchestrator's JSONL has 192 `type=user` records total, but 152 of those are workers reporting back to the orchestrator, slash commands, and skill loaders — not Yad's input. See [Sessions](sessions.md) for the breakdown.)
 
 > See [Sessions](sessions.md) and [Orchestration map](orchestration-map.md) for the data behind each row.
 

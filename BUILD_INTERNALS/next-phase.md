@@ -26,7 +26,7 @@ The current `data/sessions.tsv` has `hops`, `turns`, and `autonomy_ratio`. The n
 
 - **Per-session autonomy index:** (turns − hops) / turns. Closer to 1.0 = more autonomous.
 - **Per-wave autonomy:** averaged across workers + orchestrator's wave-slice.
-- **Hop classification:** of Yad's 192 orchestrator prompts, how many were:
+- **Hop classification:** of Yad's **40 actual orchestrator prompts** (out of 192 `type=user` records, the rest being worker replies + slash + skill loaders), how many were:
   - Initial setup (one-shot context)
   - Strategy nudges (one-line course corrections)
   - Approval gates (yes/no on a plan)
@@ -37,11 +37,11 @@ The current `data/sessions.tsv` has `hops`, `turns`, and `autonomy_ratio`. The n
   - Tool call + reasoning (autonomous decision)
   - Plain text (responding to a hop)
 
-A target autonomy ratio for the next build to beat: this build was **7265 turns / 353 hops = 20.6:1**. Can the next one hit 30:1 with the same quality?
+A target autonomy ratio for the next build to beat: this build was **1026 orchestrator turns / 40 Yad-typed prompts ≈ 25.7 turns per Yad prompt** in the orchestrator. (The raw `total_turns/total_hops = 7265/353 = 20.6:1` ratio is misleading — `total_hops` includes worker→orchestrator routing and templated worker first-prompts, not just Yad-typed input.) Can the next build hit 50 turns per Yad prompt without quality regressing?
 
 ## 4. Open questions for the teaching session
 
-- Were the 12 audits worth the cost? Each wave's audit `Explore` call added ~3–8% overhead.
+- Were the 12 per-wave audits worth the cost? Each wave's `Explore` audit dispatch added ~3–8% overhead. (Plus 1 initial repo survey + 2 final BUILD_NOTES extracts = 15 Explore dispatches total in the orchestrator.)
 - The workers' first-hop teammate-message has duplicated context. Could a shorter handoff cut worker cost?
 - Could waves run in **parallel** (e.g. wave 6 and wave 7 simultaneously) instead of serially? They have no dependency.
 - Could the audit step be merged into the worker prompt (self-audit), eliminating one dispatch per wave?
